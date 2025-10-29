@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Men in Black Terminal</title>
+<style>
+body {
+  background-color: black;
+  color: #00ff99;
+  font-family: "Courier New", monospace;
+  padding: 40px;
+  font-size: 1.3em;
+  overflow: auto; /* allow vertical scrolling */
+}
+
+/* Typing effect */
+.typing {
+  width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid #00ff99;
+  animation: typing 3s steps(35, end) forwards, blink 0.6s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+/* Hidden sections */
+#denied, #code-section, #mission, #self-destruct {
+  display: none;
+}
+
+#denied {
+  color: red;
+  font-weight: bold;
+  margin-top: 30px;
+}
+
+#code-section {
+  margin-top: 30px;
+}
+
+#code-input {
+  background: black;
+  border: 1px solid #00ff99;
+  color: #00ff99;
+  font-family: inherit;
+  font-size: 1em;
+  width: 80px;
+  text-align: center;
+  letter-spacing: 5px;
+}
+
+#submit-btn {
+  background: none;
+  border: 1px solid #00ff99;
+  color: #00ff99;
+  font-family: inherit;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+#submit-btn:hover {
+  background: #00ff99;
+  color: black;
+}
+
+/* Mission file section */
+#mission {
+  margin-top: 40px;
+  opacity: 0;
+  animation: fadeIn 2s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+h2 {
+  color: red;
+  margin-bottom: 10px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #00ff99;
+  margin: 20px 0;
+}
+
+/* Self-destruct warning */
+#self-destruct {
+  margin-top: 30px;
+  color: red;
+  font-weight: bold;
+}
+
+/* Fade-out for destruction */
+@keyframes fadeOut {
+  to { opacity: 0; }
+}
+</style>
+</head>
+<body>
+
+  <div class="typing" id="message">Accessing classified database...</div>
+  <div id="denied">ACCESS DENIED - LEVEL 7 CLEARANCE REQUIRED</div>
+
+  <div id="code-section">
+    <p>Enter code to review mission file.</p>
+    <input type="text" id="code-input" maxlength="3" placeholder="###">
+    <button id="submit-btn">Submit</button>
+    <p id="response"></p>
+  </div>
+
+  <div id="mission">
+    <h2>Mission #RJ679797</h2>
+    <hr>
+    <div> <p>Good evening, <b>Senior Agent Sexy</b> <u>ID: 09071997</u></p></div>
+    <div id="self-destruct">
+    This message will self-destruct in <span id="timer">90</span> seconds.
+  </div>
+    <p>
+      An unidentified floating object was first seen landing at<br>
+      <b>Latitude:</b> 32.796988<br>
+      <b>Longitude:</b> 117.254555<br>
+      at <b>00:23:47</b> on the morning of <b>October 31, 2025</b>.
+    </p>
+    <p>
+      According to MIB informants, the object disappeared shortly after landing.
+      A bipedal creature approximately <b>172 centimeters</b> in height was seen exiting the object.
+      It ran into a neighboring building known as <b>Mavericks Beach Club</b>.
+      The owner of the establishment has since been contacted, though no new information has arisen.
+    </p>
+    <p>
+      <b>Your mission:</b> Reconnaissance. Explore the area for anomalies.
+      There will be a college party commencing at approximately <b>20:00:00</b> on
+      <b>Friday, October 31, 2025</b>. Stay clandestine and keep civilians protected.
+    </p>
+  </div>
+
+  
+
+<script>
+  // Reveal ACCESS DENIED and code input after typing
+  setTimeout(() => {
+    document.getElementById('denied').style.display = 'block';
+    setTimeout(() => {
+      document.getElementById('code-section').style.display = 'block';
+    }, 1500);
+  }, 4000);
+
+  // Handle code entry
+  document.getElementById('submit-btn').addEventListener('click', () => {
+    const code = document.getElementById('code-input').value.trim();
+    const response = document.getElementById('response');
+    const mission = document.getElementById('mission');
+    const destruct = document.getElementById('self-destruct');
+    const timer = document.getElementById('timer');
+
+    if (code === "007") {
+      response.style.color = "#00ff99";
+      response.textContent = "Access granted.";
+      setTimeout(() => {
+        mission.style.display = 'block';
+        destruct.style.display = 'block';
+      }, 1000);
+
+      // Countdown timer
+      let timeLeft = 90;
+      const countdown = setInterval(() => {
+        timeLeft--;
+        timer.textContent = timeLeft;
+        if (timeLeft <= 0) {
+          clearInterval(countdown);
+          document.body.style.animation = "fadeOut 3s forwards";
+          setTimeout(() => {
+            document.body.innerHTML =
+              "<h1 style='color:red; text-align:center; margin-top:40vh;'>*** FILE EXPUNGED ***</h1>";
+          }, 3000);
+        }
+      }, 1000);
+
+    } else {
+      response.style.color = "red";
+      response.textContent = "Incorrect code. Security has been notified.";
+    }
+  });
+</script>
+
+</body>
+</html>
